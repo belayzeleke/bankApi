@@ -1,40 +1,42 @@
-//http
+// http
 const http = require("http");
 
-//Express
+// Express
 const express = require("express");
 
-//Dotenv
+// Global application
+const app = express();
+
+// Dotenv
 const dotenv = require("dotenv");
-dotenv.config({path: "./config.env"});
+dotenv.config({ path: "./config.env" });
 
-//Mongooes
-const mongooes = require("mongooes");
+// Mongoose
+const mongoose = require("mongoose");
 
-//Craeate server
+// Create server
 const server = http.createServer(app);
-//Port
-const port = process.env.port || 3000;
 
-//Listn on the server
+// Port
+const port = process.env.PORT || 3000;
+
+// Listen on the server
 server.listen(port, () => {
-    console.log(`Lesting on the port ${port}...`)
+  console.log(`Listening on ${port}...`);
 });
 
-//connect to DB
-//mongooes.connect(process.env.DATABASE_REMOTE)
-
-/// Connect to DB mongoose
- mongooes.connect(process.env.DATABASE_REMOTE)
+// Connect to DB
+mongoose
+  .connect(process.env.DATABASE_REMOTE)
   .then(() => {
-    console.log(`Connected successfully`);
+    console.log("Connected successfully");
   })
   .catch((err) => {
     console.log(err);
   });
 
 // db connection
-const db_connection = mongooes.connection;
+const db_connection = mongoose.connection;
 
 // Handle error
 db_connection.on("disconnected", () => {
